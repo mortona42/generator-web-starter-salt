@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "bluebird": "^3.3.5",
+    "php_versions": "~5.6",
     "lodash": "^4.11",
     "update-notifier": "^0.7.0",
     "yeoman-generator": "~0.23",
