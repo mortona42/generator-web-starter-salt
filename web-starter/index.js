@@ -2,7 +2,8 @@
 var generators = require('yeoman-generator'),
   _ = require('lodash'),
   pkg = require('../package.json'),
-  Promise = require('bluebird');
+  Promise = require('bluebird'),
+  glob = Promise.promisify(require('glob'));
 
 module.exports = generators.Base.extend({
   initializing : {
@@ -14,19 +15,36 @@ module.exports = generators.Base.extend({
   
   prompting : function() {
     var that = this;
-    var tags = ['5.6','7.0'];
+    var php_versions = ['5.3','5.6'];
+    var mysql_versions = ['5.6'];
     var config = _.extend({
       // Put default config values here
-      php_version : '5.6'
+      php_base : '5.3',
+      mysql_base : '5.6',
+      mysql_password : 'web',
     }, this.config.getAll());
     
         return that.prompt([{
           // Put config prompts here
             type : 'list',
-            name : 'php_version',
-            choices : tags,
+            name : 'php_base',
+            choices : php_versions,
             message : 'Select a version of PHP',
-            default : config.php_version,
+            default : config.php_base,
+          },
+          {
+          // Put config prompts here
+            type : 'list',
+            name : 'mysql_base',
+            choices : mysql_versions,
+            message : 'Select a version of MySQL',
+            default : config.mysql_base,
+          },
+          {
+            type: 'input',
+            name: 'mysql_pasword',
+            message: 'Input desired mysql password:',
+            default: config.mysql_password,
           },
         ])
     .then(function(answers) {
@@ -39,28 +57,9 @@ module.exports = generators.Base.extend({
   },
   writing : {
     // Put functions to write files / directories here
-    php : function() {
+    salt : function() {
           var that = this;
           var config = this.config.getAll();
-
-          if (config.install_php) {
-            // Create a Promise for remote downloading
-            return this.remoteAsync('php', 'php', config.php_version)
-            .bind({})
-            .then(function(remote) {
-              this.remotePath = remote.cachePath;
-              return glob('**', { cwd : remote.cachePath });
-            })
-            .then(function(files) {
-              var remotePath = this.remotePath;
-              _.each(files, function(file) {
-                that.fs.copy(
-                  remotePath + '/' + file,
-                  that.destinationPath('public/' + file)
-                );
-              });
-            });
-          }
         },
         aliases : function() {
           console.log('writing:aliases');
@@ -70,14 +69,25 @@ module.exports = generators.Base.extend({
         },
         settings : function() {
           // Get current system config for this sub-generator
-          var config = this.options.parent.answers['web-starter-drupal'];
-          _.extend(config, this.options.parent.answers);
+          var config = this.config.getAll();
+          //_.extend(config, this.options.parent.answers);
           
+          /*
           this.fs.copyTpl(
             this.templatePath('salt'),
             this.destinationPath('salt'),
             config
           );
+          */
+          var that = this;
+
+          glob('**', { cwd : this.templatePath, dot: true}).then(function(files) {
+            _.each(files, function(file) {
+              that.fs.copyTpl(that.templatePath(file), that.destinationPath(file), config);
+            });
+            
+          });
+          
         }
       }
 });
