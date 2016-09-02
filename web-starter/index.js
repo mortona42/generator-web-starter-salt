@@ -42,7 +42,7 @@ module.exports = generators.Base.extend({
           },
           {
             type: 'input',
-            name: 'mysql_pasword',
+            name: 'mysql_password',
             message: 'Input desired mysql password:',
             default: config.mysql_password,
           },
@@ -87,6 +87,13 @@ module.exports = generators.Base.extend({
             });
             
           });
+          /*
+          this.fs.copyTpl(
+                  this.templatePath('salt/roots/pillars/generated.sls'),
+                  this.destinationPath('salt/roots/pillars/generated.sls'),
+                  config
+                );
+                */
           
         }
       }
