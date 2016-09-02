@@ -81,7 +81,7 @@ module.exports = generators.Base.extend({
           */
           var that = this;
 
-          glob('**', { cwd : this.templatePath, dot: true}).then(function(files) {
+          glob('**', { cwd : this.templatePath(''), dot: true}).then(function(files) {
             _.each(files, function(file) {
               that.fs.copyTpl(that.templatePath(file), that.destinationPath(file), config);
             });
