@@ -1,6 +1,6 @@
 {% set mysql_base = salt['pillar.get']('mysql:mysql_version', 'mysql') %}
 {% set php_base = salt['pillar.get']('php:ng:php_version', 'php') %}
-{% set mysql_password = salt['pillar.get']('php:ng:php_version', 'php') %}
+{% set mysql_password = salt['pillar.get']('mysql:mysql_password', 'mysql') %}
 
 node:
   version: 4.4.1
