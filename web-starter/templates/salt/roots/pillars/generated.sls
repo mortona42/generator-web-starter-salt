@@ -1,7 +1,3 @@
-{% set mysql_base = salt['pillar.get']('mysql:mysql_version', 'mysql') %}
-{% set php_base = salt['pillar.get']('php:ng:php_version', 'php') %}
-{% set mysql_password = salt['pillar.get']('mysql:mysql_password', 'mysql') %}
-
 node:
   version: 4.4.1
   install_from_binary: True
@@ -11,17 +7,14 @@ node:
   checksum: f0a53527f52dbcab3b98921a6cfe8613e5fe26fb796624988f6d615c30305a95
 
 java: java-1.8.0-openjdk
-{{mysql_base}}: <%= mysql_base %>
-{{mysql_password}}: <%= mysql_password %>
-{{php_base}}: <%= php_base %>
 
 mysql:
-  mysql_version: {{mysql_base}}
+  mysql_version: <%= mysql_base %>
   database:
     - web
   user:
     web:
-      password: {{mysql_password}}
+      password: <%= mysql_password %>
       host: '%'
       databases:
         - database: web
@@ -29,7 +22,7 @@ mysql:
 
 php:
   ng:
-    php_version: {{php_base}}
+    php_version: <%= php_base %>
 
 drush:
   version: '8.x'
