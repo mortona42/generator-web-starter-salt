@@ -15,8 +15,8 @@ module.exports = generators.Base.extend({
   
   prompting : function() {
     var that = this;
-    var php_versions = ['5.3','5.6'];
-    var mysql_versions = ['5.6'];
+    var php_versions = [{name:'5.3', value:'php53u'},{name:'5.6', value:'php56u'}];
+    var mysql_versions = [{name:'5.6', value:'mysql56u'}];
     var config = _.extend({
       // Put default config values here
       php_base : '5.3',

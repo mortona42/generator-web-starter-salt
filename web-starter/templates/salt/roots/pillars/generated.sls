@@ -7,7 +7,7 @@ node:
   checksum: f0a53527f52dbcab3b98921a6cfe8613e5fe26fb796624988f6d615c30305a95
 
 java: java-1.8.0-openjdk
-
+ 
 mysql:
   mysql_version: <%= mysql_base %>
   database:
