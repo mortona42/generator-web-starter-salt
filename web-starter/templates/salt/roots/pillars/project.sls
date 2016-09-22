@@ -12,7 +12,7 @@ extra_packages:
 #  conf: salt://salt_templates/solr-conf
 
 # Define nginx template
-{% include 'nginx/drupal.sls' %}
+{% include 'nginx/<%= platform %>.sls' %}
 
 # include Yeoman generated settings
 include:
