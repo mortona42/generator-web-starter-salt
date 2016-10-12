@@ -60,12 +60,23 @@ module.exports = generators.Base.extend({
       _.extend(config, this.options.parent.answers);
 
       var that = this;
-
+      
+      
       glob('**', { cwd : this.templatePath(''), dot: true }).then(function(files) {
-        _.each(files, function(file) {
-          that.fs.copyTpl(that.templatePath(file), that.destinationPath(file), config);
+          _.each(files, function(file) {
+              console.log(file);
+              console.log(file === "salt/roots/pillars/generated.sls");
+              console.log(that.destinationPath(file));
+              console.log(that.fs.exists(that.destinationPath(file)));
+            if (file === "salt/roots/pillars/generated.sls" && that.fs.exists(that.destinationPath(file))){
+                console.log('generated.sls file exists');
+            }else{
+                that.fs.copyTpl(that.templatePath(file), that.destinationPath(file), config);
+            }
+            
+          });
         });
-      });
+      
     }
   }
 });
