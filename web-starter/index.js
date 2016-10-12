@@ -61,22 +61,23 @@ module.exports = generators.Base.extend({
 
       var that = this;
       
+      var ignoreFiles = [];
       
-      glob('**', { cwd : this.templatePath(''), dot: true }).then(function(files) {
-          _.each(files, function(file) {
-              console.log(file);
-              console.log(file === "salt/roots/pillars/generated.sls");
-              console.log(that.destinationPath(file));
-              console.log(that.fs.exists(that.destinationPath(file)));
-            if (file === "salt/roots/pillars/generated.sls" && that.fs.exists(that.destinationPath(file))){
-                console.log('generated.sls file exists');
-            }else{
-                that.fs.copyTpl(that.templatePath(file), that.destinationPath(file), config);
-            }
-            
-          });
+      // If generated.sls exists don't overwrite it
+      if (this.fs.exists('salt/roots/pillars/generated.sls')) {
+        ignoreFiles.push('**/generated.sls');
+      }
+      
+      return glob('**', {
+        cwd : this.templatePath(''), 
+        dot: true, 
+        nodir : true,
+        ignore : ignoreFiles
+      }).then(function(files) {
+        _.each(files, function(file) {
+          that.fs.copyTpl(that.templatePath(file), that.destinationPath(file), config);
         });
-      
+      });
     }
   }
 });
