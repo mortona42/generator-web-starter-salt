@@ -22,7 +22,8 @@
     "update-notifier": "^0.7.0",
     "yeoman-generator": "~0.23",
     "yeoman-generator-bluebird": "^0.1.0",
-    "yosay": "~1.1.1"
+    "yosay": "~1.1.1",
+    "glob": "^7.0.5"
   },
   "engines": {
     "node": ">=0.8.0",
