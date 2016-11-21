@@ -14,10 +14,6 @@ extra_packages:
 # Define nginx template
 {% include 'nginx/<%= platform %>.sls' %}
 
-# include Yeoman generated settings
-include:
-  - generated
-
 # To override or add php settings, uncomment/add values below
 #php:
 #  ng:
