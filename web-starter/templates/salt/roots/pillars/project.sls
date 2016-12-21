@@ -11,9 +11,17 @@ extra_packages:
 #solr:
 #  conf: salt://salt_templates/solr-conf
 
-# Define nginx template
-{% include 'nginx/<%= platform %>.sls' %}
+# Custom nginx server variables
+#nginx:
+#  server:
+#    config:
+#      http:
+#        sendfile: 'off'
 
+# Define nginx template
+include:
+  - nginx.<%= platform %>
+  
 # To override or add php settings, uncomment/add values below
 #php:
 #  ng:
