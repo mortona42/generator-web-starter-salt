@@ -14,11 +14,14 @@ module.exports = generators.Base.extend({
   
   prompting : function() {
     var that = this;
-    var php_versions = [{ name:'5.3', value:'php' },{ name:'5.6', value:'php56u' }];
+    var php_versions = [
+      { name:'5.6', value:'php56u' },
+      { name:'5.3', value:'php' },
+    ];
     var mysql_versions = [{ name:'5.6', value:'mysql56u' }];
     var config = _.extend({
       // Put default config values here
-      php_base : 'php',
+      php_base : 'php56u',
       mysql_base : 'mysql56u',
       mysql_password : 'web',
     }, this.config.getAll());
