@@ -10,6 +10,9 @@ nginx:
               - listen:
                 - 8080
                 - default_server
+              - return 301 https://vagrant.byf1.io$request_uri
+            - server:
+              - server_name: localhost
               - listen:
                 - 443 ssl default_server
               - ssl_certificate: ssl/vagrant.crt
